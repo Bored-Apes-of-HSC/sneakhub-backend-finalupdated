@@ -6,26 +6,25 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-
 @Entity
 public class User {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	private String firstName;
 	private String lastName;
 	private String password;
 	private String email;
 	private LocalDateTime createdAt = LocalDateTime.now();
-	
+
 	public User() {
-		
+
 	}
 
 	public User(Long id, String firstName, String lastName, String password, String email, String role, String mobile,
-		 LocalDateTime createdAt) {
+			LocalDateTime createdAt) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -82,27 +81,5 @@ public class User {
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
-	
-	
-	
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
