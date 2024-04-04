@@ -18,14 +18,11 @@ public class User {
 	private String lastName;
 	private String password;
 	private String email;
-	private String mobile;
 	private LocalDateTime createdAt = LocalDateTime.now();
 	
 	public User() {
 		
 	}
-	
-	
 
 	public User(Long id, String firstName, String lastName, String password, String email, String role, String mobile,
 		 LocalDateTime createdAt) {
@@ -35,11 +32,8 @@ public class User {
 		this.lastName = lastName;
 		this.password = password;
 		this.email = email;
-		this.mobile = mobile;
 		this.createdAt = createdAt;
 	}
-
-
 
 	public Long getId() {
 		return id;
@@ -80,16 +74,6 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-
-	public String getMobile() {
-		return mobile;
-	}
-
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
-
 
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
