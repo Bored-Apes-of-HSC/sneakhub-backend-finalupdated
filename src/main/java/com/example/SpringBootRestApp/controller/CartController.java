@@ -1,5 +1,6 @@
 package com.example.SpringBootRestApp.controller;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +24,16 @@ public class CartController {
 	    private CartService cartService;
 	 
         //API for adding any product to cart
-	    @PostMapping("/cart/add/{pid}/{quantity}")
-	    public ResponseEntity<String> addToCart(@PathVariable int pid, @PathVariable int quantity) {
-	        cartService.addToCart(pid, quantity);
+	    @PostMapping("/cart/add/{userID}/{pid}/{quantity}")
+	    public ResponseEntity<String> addToCart(@PathVariable BigInteger userID,@PathVariable int pid, @PathVariable int quantity) {
+	        cartService.addToCart(userID,pid, quantity);
 	        return ResponseEntity.ok("Product added to cart successfully");
 	    }
 
 	    //API for deleting items from cart
-	    @DeleteMapping("/cart/remove/{productId}")
-	    public ResponseEntity<String> removeFromCart(@PathVariable int productId) {
-	        cartService.removeFromCart(productId);
+	    @DeleteMapping("/cart/remove/{userID}/{productId}")
+	    public ResponseEntity<String> removeFromCart(@PathVariable BigInteger userID,@PathVariable int productId) {
+	        cartService.removeFromCart(userID,productId);
 	        return ResponseEntity.ok("Product removed from cart successfully");
 	    }
 	    
@@ -42,10 +43,18 @@ public class CartController {
 	    	return cartService.getCartProducts();
 	    }
 	    
+	    //API to fetch the items in the cart of a particular user
+	    @GetMapping("/cart/{userID}")
+	    public List<Cart>  getCartProductsByUserId(@PathVariable BigInteger userID){
+	    	return cartService.getCartProductsByUserId(userID);
+	    }
+	    
+	   
+	    
 	    //API to update quantity of a product in the cart
-	    @PutMapping("/cart/update/{productId}/{quantity}")
-	    public ResponseEntity<String> updateQuantity(@PathVariable int productId, @PathVariable int quantity) {
-	        cartService.updateQuantity(productId, quantity);
+	    @PutMapping("/cart/update/{userID}/{productId}/{quantity}")
+	    public ResponseEntity<String> updateQuantity(@PathVariable BigInteger userID,@PathVariable int productId, @PathVariable int quantity) {
+	        cartService.updateQuantity(userID,productId, quantity);
 	        return ResponseEntity.ok("Quantity updated successfully");
 	    }
 

@@ -1,5 +1,6 @@
 package com.example.SpringBootRestApp.service;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,31 +23,30 @@ public class CartServiceImpl implements CartService {
 	    private ProductRepo productRepository;
 
 	    @Transactional
-	    public void addToCart(int productId, int quantity) {
-	        Cart existingCartItem = cartRepository.findByPid(productId);
+	    public void addToCart(BigInteger userID, int productId, int quantity) {
+	        Cart existingCartItem = cartRepository.findByUseridAndPid( userID,productId);
 	        if (existingCartItem != null) {
-	            // If the product already exists in the cart, update its quantity
 	            existingCartItem.setQuantity(existingCartItem.getQuantity() + quantity);
 	            cartRepository.save(existingCartItem);
 	        } else {
-	            // If the product doesn't exist in the cart, add it as a new entry
 	            Product product = productRepository.findById(productId).orElse(null);
 	            if (product != null) {
 	                Cart newCartItem = new Cart();
+	                newCartItem.setUserid(userID);
 	                newCartItem.setPid(productId);
 	                newCartItem.setQuantity(quantity);
 	                newCartItem.setPrice(product.getPrice() * quantity);
 	                newCartItem.setImageURL(product.getImageURL());
-		            newCartItem.setName(product.getName());
-		            newCartItem.setBrand(product.getBrand());
+	                newCartItem.setName(product.getName());
+	                newCartItem.setBrand(product.getBrand());
 	                cartRepository.save(newCartItem);
 	            }
 	        }
 	    }
 
 	    @Transactional
-	    public void removeFromCart(int productId) {
-	        cartRepository.deleteByPid(productId);
+	    public void removeFromCart(BigInteger userID,int productId) {
+	    	cartRepository.deleteByUseridAndPid(userID, productId);
 	    }
 	    
 	    public List<Cart> getCartProducts(){
@@ -54,12 +54,17 @@ public class CartServiceImpl implements CartService {
 	    }
 	    
 	    @Transactional
-	    public void updateQuantity(int productId, int quantity) {
-	        Cart cartItem = cartRepository.findByPid(productId);
+	    public void updateQuantity(BigInteger userID, int productId, int quantity) {
+	        Cart cartItem = cartRepository.findByUseridAndPid(userID, productId);
 	        if (cartItem != null) {
 	            cartItem.setQuantity(quantity);
 	            cartRepository.save(cartItem);
 	        }
-	    } 
+	    }
+
+	    
+	    public List<Cart> getCartProductsByUserId(BigInteger userId) {
+	        return cartRepository.findByUserid(userId);
+	    }
 
 }

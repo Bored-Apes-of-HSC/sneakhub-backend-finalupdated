@@ -37,12 +37,9 @@ public class ProductController {
 	public List<Product> getProductsInRange(@PathVariable("start") int start, @PathVariable("end") int end) {
 		List<Product> allProducts = service.getAllProducts();
 
-		// Validate the range parameters
 		if (start < 1 || start > allProducts.size() || end < start || end > allProducts.size()) {
 			throw new IllegalArgumentException("Invalid range parameters");
 		}
-
-		// Return a sublist of products within the specified range
 		return allProducts.subList(start - 1, end);
 	}
 
