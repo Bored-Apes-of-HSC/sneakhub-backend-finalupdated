@@ -13,5 +13,6 @@ public interface CartService {
 	 public List<Cart> getCartProducts();
 	 public void updateQuantity(BigInteger userID,int productId, int quantity) ;
 	 List<Cart> getCartProductsByUserId(BigInteger userId);
+	 public void clearCart(BigInteger userID);
 
 }
