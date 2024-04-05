@@ -7,6 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +25,6 @@ import com.example.SpringBootRestApp.service.CustomUserServiceImplementation;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-<<<<<<< HEAD
     
     private UserRepository userRepository;
     private JwtProvider jwtProvider;
@@ -103,82 +103,4 @@ public class AuthController {
         }
         return new UsernamePasswordAuthenticationToken(userDetails, null,userDetails.getAuthorities());
     }
-=======
-
-	private UserRepository userRepository;
-	private JwtProvider jwtProvider;
-	private PasswordEncoder passwordEncoder;
-	private CustomUserServiceImplementation customUserService;
-
-	public AuthController(UserRepository userRepository, CustomUserServiceImplementation customUserService,
-			PasswordEncoder passwordEncoder, JwtProvider jwtProvider) {
-		this.userRepository = userRepository;
-		this.customUserService = customUserService;
-		this.passwordEncoder = passwordEncoder;
-		this.jwtProvider = jwtProvider;
-	}
-
-	@PostMapping("/signup")
-	public ResponseEntity<AuthResponse> createUserHandler(@RequestBody User user) throws UserException {
-
-		String email = user.getEmail();
-		String password = user.getPassword();
-		String firstName = user.getFirstName();
-		String lastName = user.getLastName();
-
-		User isEmailExist = userRepository.findByEmail(email);
-
-		if (isEmailExist != null) {
-			throw new UserException("Email is already used with another account");
-		}
-
-		User createdUser = new User();
-		createdUser.setEmail(email);
-		createdUser.setPassword(passwordEncoder.encode(password));
-		createdUser.setFirstName(firstName);
-		createdUser.setLastName(lastName);
-
-		User savedUser = userRepository.save(createdUser);
-
-		AuthResponse authResponse = new AuthResponse();
-		authResponse.setJwt(jwtProvider
-				.generateToken(new UsernamePasswordAuthenticationToken(savedUser.getEmail(), savedUser.getPassword())));
-		authResponse.setMessage("Signup Success");
-		authResponse.setId(savedUser.getId());
-
-		return new ResponseEntity<>(authResponse, HttpStatus.CREATED);
-	}
-
-	@PostMapping("/signin")
-	public ResponseEntity<AuthResponse> loginUserHandler(@RequestBody LoginRequest loginRequest) {
-
-		String username = loginRequest.getEmail();
-		String password = loginRequest.getPassword();
-
-		Authentication authentication = authenticate(username, password);
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-
-		String token = jwtProvider.generateToken(authentication);
-
-		AuthResponse authResponse = new AuthResponse();
-		authResponse.setJwt(token);
-		authResponse.setMessage("Signin Success");
-
-		return new ResponseEntity<>(authResponse, HttpStatus.CREATED);
-	}
-
-	private Authentication authenticate(String username, String password) {
-		UserDetails userDetails = customUserService.loadUserByUsername(username);
-
-		if (userDetails == null) {
-			throw new BadCredentialsException("Invalid Username");
-		}
-
-		if (!passwordEncoder.matches(password, userDetails.getPassword())) {
-			throw new BadCredentialsException("Invalid password");
-		}
-		return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-	}
-
->>>>>>> c6a1e08002c6254b1c55a66f7137fe73b2f69afc
 }

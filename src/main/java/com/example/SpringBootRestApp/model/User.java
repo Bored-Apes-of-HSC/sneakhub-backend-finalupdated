@@ -19,16 +19,15 @@ public class User {
 	private String email;
 	private LocalDateTime createdAt = LocalDateTime.now();
 
+
+
 	public User() {
 
 	}
 
-<<<<<<< HEAD
-	public User(Long id, String firstName, String lastName, String password, String email, String role,  LocalDateTime createdAt) {
-=======
 	public User(Long id, String firstName, String lastName, String password, String email, String role, String mobile,
 			LocalDateTime createdAt) {
->>>>>>> c6a1e08002c6254b1c55a66f7137fe73b2f69afc
+
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -78,10 +77,7 @@ public class User {
 		this.email = email;
 	}
 
-<<<<<<< HEAD
 
-=======
->>>>>>> c6a1e08002c6254b1c55a66f7137fe73b2f69afc
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
