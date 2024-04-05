@@ -3,12 +3,15 @@ package com.example.SpringBootRestApp.model;
 import java.math.BigInteger;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
 public class Cart {
 		
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int Cart_id;
 	private BigInteger userid;
 	private int pid;
