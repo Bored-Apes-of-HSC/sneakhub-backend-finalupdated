@@ -58,4 +58,11 @@ public class CartController {
 	        return ResponseEntity.ok("Quantity updated successfully");
 	    }
 
+	    @DeleteMapping("/cart/clear/{userID}")
+	    public ResponseEntity<String> clearCart(@PathVariable BigInteger userID) {
+	        cartService.clearCart(userID);
+	        return ResponseEntity.ok("Cart cleared successfully for userID: " + userID);
+	    }
+	    
+	    
 }

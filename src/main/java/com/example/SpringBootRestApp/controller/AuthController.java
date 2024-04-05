@@ -82,14 +82,22 @@ public class AuthController {
         Authentication authentication = authenticate(username,password);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        
+        // Retrieve user ID
+        User user = userRepository.findByEmail(userDetails.getUsername());
+        Long userId = user.getId();
+        
         String token = jwtProvider.generateToken(authentication);
         
         AuthResponse authResponse = new AuthResponse();
         authResponse.setJwt(token);
         authResponse.setMessage("Signin Success");
+        authResponse.setId(userId); // Set the userId
         
         return new ResponseEntity<>(authResponse, HttpStatus.CREATED);
     }
+
 
     private Authentication authenticate(String username, String password) {
         UserDetails userDetails = customUserService.loadUserByUsername(username);

@@ -66,5 +66,10 @@ public class CartServiceImpl implements CartService {
 	    public List<Cart> getCartProductsByUserId(BigInteger userId) {
 	        return cartRepository.findByUserid(userId);
 	    }
+	    
+	    @Transactional
+	    public void clearCart(BigInteger userID) {
+	        cartRepository.deleteByUserid(userID);
+	    }
 
 }
